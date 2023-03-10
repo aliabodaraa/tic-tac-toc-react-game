@@ -1,13 +1,21 @@
 
-  const Square = ({onClickSquare,value,finish}) => {
+  const Square = ({isFoundInSolution,value,onClickSquare,finish}) => {
     console.log(11111111111);
     return (
-        <div>{finish === 0 && <button className="square" onClick={onClickSquare}>
+      <div>
+          {finish === 0 && 
+          <button className="square" onClick={onClickSquare}>
+            {value}
+          </button>}
+          {finish ===1 &&
+          <button disabled className={isFoundInSolution?"square-success":"square"} onClick={onClickSquare}>
           {value}
-        </button>}
-        {(finish ===2 || finish ===1) && <button disabled className="square" onClick={onClickSquare}>
-        {value}
-        </button>}</div>
+          </button>}
+          {finish ===2 && 
+          <button disabled className="square-failed" onClick={onClickSquare}>
+          {value}
+          </button>}
+      </div>
       );
   }
    

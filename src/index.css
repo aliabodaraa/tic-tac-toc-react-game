@@ -1,6 +1,6 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    padding: 21px 20%;
 }
 
 ol,
@@ -20,17 +20,51 @@ ul {
 
 .square {
     background: #fff;
-    border: 1px solid #999;
+    border: 5px solid #999;
     float: left;
-    font-size: 24px;
+    font-size: 130px;
     font-weight: bold;
     line-height: 34px;
-    height: 34px;
+    height: 180px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
+    width: 21%;
+}
+
+.square-success {
+    background: #fff;
+    border: 5px solid #2d9a00;
+    float: left;
+    font-size: 130px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 180px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 21%;
+}
+
+.square-failed {
+    background: #fff;
+    border: 5px solid red;
+    float: left;
+    font-size: 130px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 180px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 21%;
+}
+
+.square:hover {
+    background: #44080828;
 }
 
 .square:focus {
