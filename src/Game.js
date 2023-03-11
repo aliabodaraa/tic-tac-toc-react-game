@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import Board from "./Board";
 
 const Game = () => {
-    const [history,setHistory]=useState([{squares: Array(9).fill(null) }]);
-    const [xIsNext,setXIsNext]=useState(true);
-    const [status,setStatus]=useState("start with O");
-    const [finishFromGame,setFinishFromGame]=useState(0);
-    const [solution,setSolution]=useState([]);
-    const [stepNumber,setStepNumber]=useState(0);
+    let [history,setHistory]=useState([{squares: Array(9).fill(null) }]);
+    let [xIsNext,setXIsNext]=useState(true);
+    let [status,setStatus]=useState("start with O");
+    let [finishFromGame,setFinishFromGame]=useState(0);
+    let [solution,setSolution]=useState([]);
+    let [stepNumber,setStepNumber]=useState(0);
     const calculateWinner=(squaresArr)=>{
         const lines = [
           [0, 1, 2],
@@ -29,22 +29,23 @@ const Game = () => {
 
         return null;
       }
-
+      
     const onClickFromGame=(i)=>{
-    
-        const current = history[history.length - 1];
-        const squaresArr = current.squares.slice();
+        const squaresArr = history[history.length-1].squares.slice();
         if(squaresArr[i] || finishFromGame===2 || finishFromGame===1) return;
         //debugger;
         squaresArr[i] = !xIsNext ? 'X' : 'O';
         history.push({squares:squaresArr}); //you can use this insted of use setHistory because push apply the edition directly
-
         //setHistory(history.concat({squares:squaresArr}));//the updates not syncrnouns,it missed the latest move
-        //console.log(history,"now");
-        
-        setHistory(history);//without meaning i put it for remove to silence the warning
-        setSolution(solution);//without meaning i put it for remove to silence the warning
         setXIsNext(!xIsNext);
+        setStepNumber((stepNumber)=>++stepNumber);
+
+        console.log(history,"now");
+        //console.log("1 "+stepNumber,history.length);
+        //setStepNumber(history.length);
+        //console.log("2 "+stepNumber,history.length);
+        //debugger;
+        //console.log(history.slice(0, stepNumber + 1));
 
         let winner=calculateWinner(squaresArr);
         //console.log("___________----"+typeof winner);
@@ -62,26 +63,34 @@ const Game = () => {
             }
         }
       }
-      const jumpTo=(moveIndex)=>{
-        setStepNumber(moveIndex);
-        setXIsNext((moveIndex % 2) === 0);
-        console.log("Jump to step",moveIndex,"with board",history[moveIndex].squares)
 
+      
+      let jumpTo=(moveIndex)=>{
+        setStepNumber(moveIndex);
+        console.log("stepNumber   "+stepNumber+"   ",moveIndex);
+        //setStepNumber(moveIndex);
+        setXIsNext((moveIndex % 2) === 0);
+        //console.log("Jump to step",moveIndex,"with board",history[moveIndex].squares)
       }
+      useEffect(()=>{
+        console.log("useEffect trigger when you jumpTo",history[stepNumber].squares,stepNumber);
+       // current.current=history[stepNumber];
+      },[stepNumber,history]);
     return (
         
-        <div className="game">
+        <div className="game">stepNumber: {stepNumber}
           <div className="game-board">
             <Board
                 solution={solution}
-                squaresArr={history[history.length-1].squares}//history[history.length-1].squares
+                squaresArr={history[stepNumber].squares}
                 onClickBoard={(i) => onClickFromGame(i)}
                 finishBoard={finishFromGame}
               />
           </div>
           <div className="game-info">
             <h2>{status}</h2>
-            <ol>         {
+            <ol>
+              {
                  history.map((step, moveIndex) => {
                   const desc = moveIndex ?
                     'Go to moveIndex #' + moveIndex :
@@ -93,7 +102,8 @@ const Game = () => {
                     </li>
                   );
                 })
-          }</ol>
+              }
+            </ol>
           </div>
       </div>
      );

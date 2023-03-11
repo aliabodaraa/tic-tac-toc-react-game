@@ -1,6 +1,6 @@
 
   const Square = ({isFoundInSolution,value,onClickSquare,finish}) => {
-    console.log(11111111111);
+    // console.log(11111111111);
     return (
       <div>
           {finish === 0 && 
